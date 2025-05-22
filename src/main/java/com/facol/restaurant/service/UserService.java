@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+    // injeção de dependencia
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    //
 
     public UserResponseDto getUserById(Long id) {
         return userRepository.findById(id)
@@ -29,6 +31,7 @@ public class UserService {
                         u.getName())
                 )
                 .orElseThrow(() -> new NotFoundException("Usuário não Encontrado"));
+                // vai tentar encontrar e se nao encontrar retorna um user nao encontrado
     }
 
     public Page<UserResponseDto> getUsers() {
@@ -54,7 +57,7 @@ public class UserService {
         GetContent: retorna a lista interna de userlist(page)
         stream: converte a lista em stream, é uma forma funcional de processar dados em sequência
         map: para cada elemento da lista(user), transforma em um novo objeto UserResponse
-        collect: transformar todos os elementos do stream, você coleta tudo de volta em uma Lista
+        collect: transformar todos os elementos do stream, você coleta tudo converte em uma Lista
         */
         List<UserResponseDto> dtoList = userList
                 .getContent()
@@ -85,8 +88,8 @@ public class UserService {
         user.setName(userUpdate.getName());
         user.setEmail(userUpdate.getEmail());
         user.setPassword(userUpdate.getPassword());
-        userRepository.save(user);
 
+        userRepository.save(user);
     }
 
     public void pathUser(Long id, UserRequestDto parcialUpdate) {
@@ -110,6 +113,5 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Usúario não Encontrado"));
 
         userRepository.delete(user);
-
     }
 }

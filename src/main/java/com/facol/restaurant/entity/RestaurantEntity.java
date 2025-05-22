@@ -19,11 +19,11 @@ public class RestaurantEntity {
     private Long id;
     private String name;
     private String address;
+
     @Enumerated(EnumType.STRING)
     private RestaurantEnum tag;
 
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore
     private List<ReviewEntity> reviews = new ArrayList<>();
-
 }

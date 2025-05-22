@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity // anotação do spring, para ele mapear que é um entidade.
+@Data // getter e setters
+@NoArgsConstructor // construtor vazio
+@AllArgsConstructor // construtor cheio
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

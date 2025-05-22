@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
-    RestaurantRepositoy restaurantRepositoy;
+    private final RestaurantRepositoy restaurantRepositoy;
 
     public RestaurantService(RestaurantRepositoy restaurantRepositoy) {
         this.restaurantRepositoy = restaurantRepositoy;
@@ -75,6 +75,7 @@ public class RestaurantService {
 
     public void createRestaurant(RestaurantRequestDto restaurantCreate) {
         RestaurantEntity restaurantEntity = new RestaurantEntity();
+
         restaurantEntity.setName(restaurantCreate.getName());
         restaurantEntity.setAddress(restaurantCreate.getAddress());
         restaurantEntity.setTag(RestaurantEnum.INDEFINIDO);
@@ -85,8 +86,10 @@ public class RestaurantService {
     public void updateRestaurant(Long id, RestaurantRequestDto restaurantUpdate) {
         RestaurantEntity restaurant = restaurantRepositoy.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
+
         restaurant.setName(restaurantUpdate.getName());
         restaurant.setAddress(restaurantUpdate.getAddress());
+
         restaurantRepositoy.save(restaurant);
     }
 
@@ -106,6 +109,7 @@ public class RestaurantService {
     public void delete(Long id) {
         RestaurantEntity restaurant = restaurantRepositoy.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
+
         restaurantRepositoy.delete(restaurant);
     }
 }

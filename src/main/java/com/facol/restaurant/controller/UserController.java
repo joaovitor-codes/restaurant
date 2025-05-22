@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    // faz injeção de dependencia automaticamente
     private final UserService userService;
 
     public UserController(UserService userService) {

@@ -50,8 +50,6 @@ public class ReviewService {
         );
     }
 
-
-
     public Page<ReviewResponseDto> getReviews() {
         return findAll();
     }
