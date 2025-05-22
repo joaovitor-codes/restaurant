@@ -4,7 +4,9 @@ import com.facol.restaurant.dto.UserRequestDto;
 import com.facol.restaurant.dto.UserResponseDto;
 import com.facol.restaurant.entity.UserEntity;
 import com.facol.restaurant.exception.NotFoundException;
+import com.facol.restaurant.exception.ReferentialIntegrityException;
 import com.facol.restaurant.repository.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -112,6 +114,10 @@ public class UserService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usúario não Encontrado"));
 
-        userRepository.delete(user);
+        try{
+            userRepository.delete(user);
+        }catch (DataIntegrityViolationException e){
+            throw new ReferentialIntegrityException("Não é possível deletar o usuário. Existem registros associados, como reviews.");
+        }
     }
 }

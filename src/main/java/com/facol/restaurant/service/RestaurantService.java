@@ -5,7 +5,9 @@ import com.facol.restaurant.dto.RestaurantResponseDto;
 import com.facol.restaurant.entity.RestaurantEntity;
 import com.facol.restaurant.entity.Enum.RestaurantEnum;
 import com.facol.restaurant.exception.NotFoundException;
+import com.facol.restaurant.exception.ReferentialIntegrityException;
 import com.facol.restaurant.repository.RestaurantRepositoy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -110,6 +112,10 @@ public class RestaurantService {
         RestaurantEntity restaurant = restaurantRepositoy.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
-        restaurantRepositoy.delete(restaurant);
+        try{
+            restaurantRepositoy.delete(restaurant);
+        }catch (DataIntegrityViolationException e){
+            throw new ReferentialIntegrityException("Não é possível deletar o Restaurante. Existem registros associados, como reviews.");
+        }
     }
 }
