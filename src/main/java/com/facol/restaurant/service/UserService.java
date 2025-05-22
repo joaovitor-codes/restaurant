@@ -23,14 +23,12 @@ public class UserService {
     }
 
     public UserResponseDto getUserById(Long id) {
-        UserResponseDto user = userRepository.findById(id)
+        return userRepository.findById(id)
                 .map(u -> new UserResponseDto(
                         u.getId(),
                         u.getName())
                 )
                 .orElseThrow(() -> new NotFoundException("Usuário não Encontrado"));
-
-        return new UserResponseDto(user.getId(), user.getName());
     }
 
     public Page<UserResponseDto> getUsers() {
