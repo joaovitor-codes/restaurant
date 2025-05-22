@@ -74,9 +74,9 @@ public class UserService {
     public void createUser(UserRequestDto userCreate) {
         UserEntity userEntity = new UserEntity();
 
-        userEntity.setName(userCreate.getName());
-        userEntity.setEmail(userCreate.getEmail());
-        userEntity.setPassword(userCreate.getPassword());
+        userEntity.setName(userCreate.name());
+        userEntity.setEmail(userCreate.email());
+        userEntity.setPassword(userCreate.password());
 
         userRepository.save(userEntity);
     }
@@ -85,9 +85,9 @@ public class UserService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
-        user.setName(userUpdate.getName());
-        user.setEmail(userUpdate.getEmail());
-        user.setPassword(userUpdate.getPassword());
+        user.setName(userUpdate.name());
+        user.setEmail(userUpdate.email());
+        user.setPassword(userUpdate.password());
 
         userRepository.save(user);
     }
@@ -96,14 +96,14 @@ public class UserService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
-        if (parcialUpdate.getName() != null) {
-            user.setName(parcialUpdate.getName());
+        if (parcialUpdate.name() != null) {
+            user.setName(parcialUpdate.name());
         }
-        if (parcialUpdate.getEmail() != null) {
-            user.setEmail(parcialUpdate.getEmail());
+        if (parcialUpdate.email() != null) {
+            user.setEmail(parcialUpdate.email());
         }
-        if (parcialUpdate.getPassword() != null) {
-            user.setPassword(parcialUpdate.getPassword());
+        if (parcialUpdate.password() != null) {
+            user.setPassword(parcialUpdate.password());
         }
         userRepository.save(user);
     }

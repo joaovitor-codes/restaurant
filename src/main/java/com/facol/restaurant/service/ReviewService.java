@@ -122,9 +122,9 @@ public class ReviewService {
         reviewEntity.setUser(userEntity);
         reviewEntity.setAuthor(userEntity);
         reviewEntity.setRestaurant(restaurantEntity);
-        reviewEntity.setReviewText(reviewCreate.getReviewText());
-        reviewEntity.setRating(reviewCreate.getRating());
-        setTag(restaurantId, reviewCreate.getRating());
+        reviewEntity.setReviewText(reviewCreate.reviewText());
+        reviewEntity.setRating(reviewCreate.rating());
+        setTag(restaurantId, reviewCreate.rating());
 
         restaurantEntity.getReviews().add(reviewEntity);
         userEntity.getReviews().add(reviewEntity);
@@ -135,18 +135,18 @@ public class ReviewService {
     public void updateReview(Long id,ReviewRequestDto reviewUpdate) {
         var reviewEntity =  reviewRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Review não encontrada"));
-        var userEntity = userRepository.findById(reviewUpdate.getUserid())
+        var userEntity = userRepository.findById(reviewUpdate.userId())
                 .orElseThrow(() -> new NotFoundException("Id do usuário não encontrado"));
-        var restaurantEntity = restaurantRepositoy.findById(reviewUpdate.getRestaurantId())
+        var restaurantEntity = restaurantRepositoy.findById(reviewUpdate.restaurantId())
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
         reviewEntity.setUser(userEntity);
         reviewEntity.setAuthor(userEntity);
         reviewEntity.setRestaurant(restaurantEntity);
-        reviewEntity.setReviewText(reviewUpdate.getReviewText());
-        reviewEntity.setRating(reviewUpdate.getRating());
+        reviewEntity.setReviewText(reviewUpdate.reviewText());
+        reviewEntity.setRating(reviewUpdate.rating());
 
-        setTag(reviewUpdate.getRestaurantId(), reviewUpdate.getRating());
+        setTag(reviewUpdate.restaurantId(), reviewUpdate.rating());
 
         reviewRepository.save(reviewEntity);
     }
@@ -155,19 +155,19 @@ public class ReviewService {
         var reviewEntity = reviewRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Review não encontrada com o ID: " + id));
 
-        if (parcialUpdate.getReviewText() != null) {
-            reviewEntity.setReviewText(parcialUpdate.getReviewText());
+        if (parcialUpdate.reviewText() != null) {
+            reviewEntity.setReviewText(parcialUpdate.reviewText());
         }
-        if (parcialUpdate.getRating() != null){
-            reviewEntity.setRating(parcialUpdate.getRating());
+        if (parcialUpdate.rating() != null){
+            reviewEntity.setRating(parcialUpdate.rating());
         }
-        if (parcialUpdate.getUserid() != null) {
-            UserEntity user = userRepository.findById(parcialUpdate.getUserid())
+        if (parcialUpdate.userId() != null) {
+            UserEntity user = userRepository.findById(parcialUpdate.userId())
                             .orElseThrow(() -> new NotFoundException("Usuario não encontrado"));
             reviewEntity.getUser().setId(user.getId());
         }
-        if (parcialUpdate.getRestaurantId() != null) {
-            RestaurantEntity restaurant = restaurantRepositoy.findById(parcialUpdate.getRestaurantId())
+        if (parcialUpdate.restaurantId() != null) {
+            RestaurantEntity restaurant = restaurantRepositoy.findById(parcialUpdate.restaurantId())
                             .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
             reviewEntity.getRestaurant().setId(restaurant.getId());
         }

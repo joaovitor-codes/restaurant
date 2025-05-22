@@ -76,8 +76,8 @@ public class RestaurantService {
     public void createRestaurant(RestaurantRequestDto restaurantCreate) {
         RestaurantEntity restaurantEntity = new RestaurantEntity();
 
-        restaurantEntity.setName(restaurantCreate.getName());
-        restaurantEntity.setAddress(restaurantCreate.getAddress());
+        restaurantEntity.setName(restaurantCreate.name());
+        restaurantEntity.setAddress(restaurantCreate.address());
         restaurantEntity.setTag(RestaurantEnum.INDEFINIDO);
 
         restaurantRepositoy.save(restaurantEntity);
@@ -87,8 +87,8 @@ public class RestaurantService {
         RestaurantEntity restaurant = restaurantRepositoy.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
-        restaurant.setName(restaurantUpdate.getName());
-        restaurant.setAddress(restaurantUpdate.getAddress());
+        restaurant.setName(restaurantUpdate.name());
+        restaurant.setAddress(restaurantUpdate.address());
 
         restaurantRepositoy.save(restaurant);
     }
@@ -97,11 +97,11 @@ public class RestaurantService {
         RestaurantEntity restaurant = restaurantRepositoy.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
-        if (parcialUpdate.getName() != null) {
-            restaurant.setName(parcialUpdate.getName());
+        if (parcialUpdate.name() != null) {
+            restaurant.setName(parcialUpdate.name());
         }
-        if (parcialUpdate.getAddress() != null) {
-            restaurant.setAddress(parcialUpdate.getAddress());
+        if (parcialUpdate.address() != null) {
+            restaurant.setAddress(parcialUpdate.address());
         }
         restaurantRepositoy.save(restaurant);
     }
